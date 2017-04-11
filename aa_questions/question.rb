@@ -63,6 +63,27 @@ class Question
     @author = options['author']
   end
 
+  def save
+    if @id
+      QuestionsDB.instance.execute(<<-SQL, @title, @body, @author, @id)
+        UPDATE
+          questions
+        SET
+          title = ?, body = ?, author = ?
+        WHERE
+          id = ?
+      SQL
+    else
+      QuestionsDB.instance.execute(<<-SQL, @title, @body, @author)
+        INSERT INTO
+          questions (title, body, author)
+        VALUES
+          (?, ?, ?)
+      SQL
+      @id = QuestionsDB.instance.last_insert_row_id
+    end
+  end
+
   def author
     self.author
   end

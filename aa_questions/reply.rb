@@ -60,6 +60,27 @@ class Reply
     @author = options['author']
   end
 
+  def save
+    if @id
+      QuestionsDB.instance.execute(<<-SQL, @body, @subject, @parent, @author, @id)
+        UPDATE
+          replies
+        SET
+          body = ?, subject = ?, parent = ?, author = ?
+        WHERE
+          id = ?
+      SQL
+    else
+      QuestionsDB.instance.execute(<<-SQL, @body, @subject, @parent, @author)
+        INSERT INTO
+          replies (body, subject, parent, author)
+        VALUES
+          (?, ?, ?, ?)
+      SQL
+      @id = QuestionsDB.instance.last_insert_row_id
+    end
+  end
+
   def author
     self.author
   end

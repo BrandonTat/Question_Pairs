@@ -62,5 +62,44 @@ class User
 
   def average_karma
 
+    #authored_questions
+    #liked_questions
+      #find intersection
+
   end
+
+  def save
+    if @id
+      QuestionsDB.instance.execute(<<-SQL, @fname, @lname, @id)
+        UPDATE
+          users
+        SET
+          fname = ?, lname = ?
+        WHERE
+          id = ?
+      SQL
+    else
+      QuestionsDB.instance.execute(<<-SQL, @fname, @lname)
+        INSERT INTO
+          users (fname, lname)
+        VALUES
+          (?, ?)
+      SQL
+      @id = QuestionsDB.instance.last_insert_row_id
+    end
+  end
+
 end
+
+
+
+  def create
+    raise "#{self} already in database" if @id
+    PlayDBConnection.instance.execute(<<-SQL, @title, @year, @playwright_id)
+      INSERT INTO
+        plays (title, year, playwright_id)
+      VALUES
+        (?, ?, ?)
+    SQL
+    @id = PlayDBConnection.instance.last_insert_row_id
+  end
