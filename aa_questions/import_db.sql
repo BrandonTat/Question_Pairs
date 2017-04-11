@@ -62,22 +62,22 @@ VALUES
 INSERT INTO
   questions (title, body, author)
 VALUES
-  ('SQL', 'WTF is SQL?!', (SELECT id FROM users WHERE fname = 'Jules')),
-  ('Chickens', 'Why''d they cross the road?', (SELECT id FROM users WHERE fname = 'Brandon'));
+  ('SQL', 'WTF is SQL?!', 2),
+  ('Chickens', 'Why''d they cross the road?', 1);
 
 INSERT INTO
   question_follows (users_id, questions_id)
 VALUES
-  ((SELECT id FROM users WHERE fname = 'Jules'),
-    (SELECT id FROM questions WHERE author = (SELECT id FROM users WHERE fname = 'Brandon')));
+  (2, 2);
 
 INSERT INTO
   replies (body, subject, author, parent)
 VALUES
-  ('Interesting query...', (SELECT id FROM questions WHERE author = (SELECT id FROM users WHERE fname = 'Jules')),
-    (SELECT id FROM users WHERE fname = 'Brandon'), NULL);
+  ('Interesting query...', 1, 1, NULL),
+  ('Idk', 2, 2, NULL),
+  ('Thanks dude!', 1, 2, 1);
 
 INSERT INTO
   question_likes (liker, liked)
 VALUES
-  ((SELECT id FROM users WHERE fname = 'Jules'), (SELECT id FROM questions WHERE title = 'Chickens'));
+  (2, 2);
