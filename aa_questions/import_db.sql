@@ -68,7 +68,9 @@ VALUES
 INSERT INTO
   question_follows (users_id, questions_id)
 VALUES
-  (2, 2);
+  (2, 2),
+  (1, 2),
+  (2, 1);
 
 INSERT INTO
   replies (body, subject, author, parent)
@@ -80,4 +82,6 @@ VALUES
 INSERT INTO
   question_likes (liker, liked)
 VALUES
-  (2, 2);
+  (2, 2),
+  (1, 2),
+  (2, 1);
