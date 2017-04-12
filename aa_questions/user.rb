@@ -61,11 +61,21 @@ class User
   end
 
   def average_karma
+    ave = QuestionsDB.instance.execute(<<-SQL, @id)
 
-    #authored_questions
-    #liked_questions
-      #find intersection
+      SELECT
+        COUNT(*) / CAST (COUNT(DISTINCT questions.id) AS FLOAT)
+      FROM
+        questions
+      JOIN
+        users ON users.id = questions.author
+      JOIN
+        question_likes ON question_likes.liked = questions.id
+      WHERE
+        users.id = ? AND question_likes.liker IS NOT NULL
+    SQL
 
+    ave.first.values.first
   end
 
   def save

@@ -63,7 +63,8 @@ INSERT INTO
   questions (title, body, author)
 VALUES
   ('SQL', 'WTF is SQL?!', 2),
-  ('Chickens', 'Why''d they cross the road?', 1);
+  ('Chickens', 'Why''d they cross the road?', 1),
+  ('Dallas', 'Why is Dallas so cool?', 2);
 
 INSERT INTO
   question_follows (users_id, questions_id)
