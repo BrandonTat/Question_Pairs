@@ -1,13 +1,9 @@
 require_relative 'question'
 require_relative 'user'
+require_relative 'super_question'
 
-class QuestionLike
+class QuestionLike < SuperQuestion
   attr_accessor :liker, :liked
-
-  def self.all
-    data = QuestionsDB.instance.execute("SELECT * FROM question_likes")
-    data.map { |datum| QuestionLike.new(datum) }
-  end
 
   def self.likers_for_question_id(question_id)
     likers = QuestionsDB.instance.execute(<<-SQL, question_id)

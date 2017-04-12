@@ -1,13 +1,9 @@
 require_relative 'question'
 require_relative 'reply'
+require_relative 'super_question'
 
-class User
+class User < SuperQuestion
   attr_accessor :fname, :lname
-
-  def self.all
-    data = QuestionsDB.instance.execute("SELECT * FROM users")
-    data.map { |datum| User.new(datum) }
-  end
 
   def self.find_by_id(id)
     user = QuestionsDB.instance.execute(<<-SQL, id)

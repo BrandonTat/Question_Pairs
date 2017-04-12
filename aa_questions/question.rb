@@ -1,6 +1,7 @@
 require 'sqlite3'
 require 'singleton'
 require_relative 'reply'
+require_relative 'super_question'
 
 class QuestionsDB < SQLite3::Database
   include Singleton
@@ -12,13 +13,8 @@ class QuestionsDB < SQLite3::Database
   end
 end
 
-class Question
+class Question < SuperQuestion
   attr_accessor :title, :body, :author
-
-  def self.all
-    data = QuestionsDB.instance.execute("SELECT * FROM questions")
-    data.map { |datum| Question.new(datum) }
-  end
 
   def self.find_by_id(id)
     question = QuestionsDB.instance.execute(<<-SQL, id)

@@ -1,13 +1,8 @@
 require_relative 'question'
+require_relative 'super_question'
 
-
-class Reply
+class Reply < SuperQuestion
   attr_accessor :body, :subject, :parent, :author
-
-  def self.all
-    data = QuestionsDB.instance.execute("SELECT * FROM replies")
-    data.map { |datum| Reply.new(datum) }
-  end
 
   def self.find_by_id(id)
     reply = QuestionsDB.instance.execute(<<-SQL, id)
